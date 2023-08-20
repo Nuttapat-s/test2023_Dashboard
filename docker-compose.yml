@@ -1,0 +1,12 @@
+version: '3'
+services:
+  mongo: 
+    container_name: mainDb
+    image: mongo
+    ports: 
+    - '27017:27017'
+  mongo2: 
+    container_name: AuthDb
+    image: mongo
+    ports: 
+    - '20100:27017'

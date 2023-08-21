@@ -7,7 +7,8 @@ class DashboardService{
     }
     
     async findAll(limit,skip){
-        return await this.dashboardRepo.findAll(!limit?0:limit,!skip?3:skip);
+        let count = await this.dashboardRepo.countAll();
+        return await this.dashboardRepo.findAll(!limit?0:limit,!skip?count-3:skip);
     }
 
     async viewDetail(dashboardId){
@@ -15,9 +16,11 @@ class DashboardService{
     }
 
     async createDashboard(newData){
-        await this.dashboardRepo.createDashboard(newData);
+        let data = await this.dashboardRepo.createDashboard(newData);
+
         return {
-            status: 'SUCCESS'
+            'status':'SUCCESS',
+            'dashboardId':data[0].id
         }
     }
 
@@ -27,6 +30,14 @@ class DashboardService{
             status: 'SUCCESS'
         }
     }
+
+    async updateStatus(id,status){
+        await this.dashboardRepo.updateStatus(id,status);
+        return {
+            status: 'SUCCESS'
+        }
+    }
+
 
 }
 

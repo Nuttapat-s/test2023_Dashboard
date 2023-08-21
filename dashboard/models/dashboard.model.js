@@ -3,8 +3,8 @@ const mongoose = require('mongoose')
 const Dashboard = new mongoose.Schema({
     userId: String,
     headerDetail: String,
-    Detail: String,
-    status: String,
+    detail: String,
+    status: {type:String,enum:['To Do','In Progress','Done'],default:'To Do'},
     createBy: String,
     userEmail: String,
     commentId:[String],

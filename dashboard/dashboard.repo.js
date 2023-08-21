@@ -10,8 +10,16 @@ class DashboardRepo{
         })
     }
 
+    async countAll(){
+        return await dashboardModel.find({}).count().then((data)=>{
+            return data;
+        }).catch((err)=>{
+            throw err;
+        })
+    }
+
     async viewDetail(dashboardId){
-        return await dashboardModel.findById(dashboardId).then((data) =>{
+        return await dashboardModel.findById({_id:dashboardId}).then((data) =>{
             return data;
         }).catch((err) =>{
             throw err
@@ -20,13 +28,22 @@ class DashboardRepo{
     }
 
     async createDashboard(newData){
-        await dashboardModel.insertMany([newData]).catch((err)=>{
+        return await dashboardModel.insertMany([newData]).then((data)=>{
+            return data;
+        }).catch((err)=>{
+            console.log(err)
             throw err;
         })
     }
 
     async deleteData(id){
         await dashboardModel.deleteOne({_id:id}).catch((err)=>{
+            throw err;
+        })
+    }
+
+    async updateStatus(id,status){
+        await dashboardModel.updateOne({_id:id},{status:status}).catch(err =>{
             throw err;
         })
     }

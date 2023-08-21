@@ -10,17 +10,19 @@ router.post('/get/dashboard',jwt.jwtValidate, async (req, res) => {
     try {
         res.send(await commentService.findByArrId(req.body.idList));
     } catch (error) {
-        console.log(error)
-        res.sendStatus(500);
+        res.send(error);
     }
 })
 
-router.post('/get/dashboard',jwt.jwtValidate, async (req, res) => {
+router.post('/create',jwt.jwtValidate, async (req, res) => {
     try {
+        let userInfo = await jwt.jwtGetUser(req);
+        req.body.commentData.username = userInfo.username
         res.send(await commentService.create(req.body.dashboardId,req.body.commentData));
     } catch (error) {
         console.log(error)
-        res.sendStatus(500);
+        res.send(error);
+
     }
 })
 

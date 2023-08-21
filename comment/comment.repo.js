@@ -15,22 +15,23 @@ class CommentRepo{
 
     async create(dashboardId,data){
         let dataId = await commentModel.insertMany([data]).then((data) =>{
-            return data.id;
+            return data[0].id
         }).catch((err)=> {throw err})
-        
+
+
         let commentsIdArr = []
-        commentsIdArr = await dashboardModel.findById(dashboardId).then((data) =>{
+        commentsIdArr = await dashboardModel.findById({_id:dashboardId}).then((data) =>{
+            console.log(data)
             return data.commentId
         }).catch(err =>{
             throw err
         })
 
-        if(commentsIdArr.length > 0){
-            commentsIdArr.push(dataId)
-        }
-        await dashboardModel.findByIdAndUpdate({dashboardId},{commentId:commentsIdArr}).catch((err)=> {throw err})
+        commentsIdArr.push(dataId)
+        await dashboardModel.findByIdAndUpdate({_id:dashboardId},{commentId:commentsIdArr}).catch((err)=> {throw err})
         return {
-            status: 'SUCCESS'
+            status: 'SUCCESS',
+            listId: commentsIdArr
         }
     }
 }

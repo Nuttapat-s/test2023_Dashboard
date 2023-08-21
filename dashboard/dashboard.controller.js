@@ -13,40 +13,43 @@ router.get('/',jwt.jwtValidate, async (req, res) => {
         res.send(data)
     } catch (error) {
         console.log(error)
-        res.sendStatus(500);
+        res.send(error);
     }
 
 })
 
-router.get('/detail',jwt.jwtValidate,async (req,res)=>{
+router.get('/detail/:id',jwt.jwtValidate,async (req,res)=>{
     try {
-        res.send(await service.viewDetail(req.body.id))
+        console.log(req.params.id)
+        res.send(await service.viewDetail(req.params.id))
     } catch (error) {
         console.log(error)
+        res.send(error);
         
     }
 })
 
 router.post('/new/token',async  (req, res) => {
     try {
-       let data =await jwt.jwtValidateRefreshToken(req.body.refreshToken,res)
+       let data =await jwt.jwtValidateRefreshToken(req.body.refreshToken)
        res.send(data)
     } catch (error) {
-        res.sendStatus(500);
+        res.send(error);
     }
     
 })
 
 router.post('/create',jwt.jwtValidate,async (req,res) =>{
     try {
-        console.log('asfddsa')
         let userInfo = await jwt.jwtGetUser(req);
-        console.log(userInfo)
-        req.body.userId = userInfo._id
+        req.body.userId = userInfo.id
         req.body.createBy = userInfo.username
-        res.send(await service.createDashboard(req.body));
+        req.body.userEmail = userInfo.email
+        let data = await service.createDashboard(req.body)
+        res.send(data);
     } catch (error) {
-        res.sendStatus(500);
+        console.log(error)
+        res.send(error);
     }
 })
 
@@ -54,7 +57,25 @@ router.delete('/delete/one',jwt.jwtValidate,async (req,res) =>{
     try {
         res.send(await service.deleteData(req.body.id));
     } catch (error) {
-        res.sendStatus(500);
+        res.send(error);
+    }
+})
+
+router.put('/status',jwt.jwtValidate,async (req,res) =>{
+    try {
+        res.send(await service.updateStatus(req.body.id,req.body.status))
+    } catch (error) {
+        res.send(error);
+    }
+})
+
+router.get('/status/dropdown',jwt.jwtValidate,async (req,res) =>{
+    try {
+        res.send({
+            dropdown:['To Do','In Progress','Done']
+        })
+    } catch (error) {
+        res.send(error);
     }
 })
 

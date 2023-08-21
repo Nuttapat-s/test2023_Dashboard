@@ -7,6 +7,7 @@ class CommentService{
     }
 
     async findByArrId(arr){
+        console.log(arr)
         return await this.repo.findByArrId(arr);
     }
 

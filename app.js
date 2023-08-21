@@ -14,6 +14,7 @@ mongoose.connect(process.env.DB_URL)
     .catch((err) => console.log(err))
 
 let app = express();
+app.use(express.json());
 
 app.use('/dashboard',dashboardRouter)
 app.use('/comment',commentRouter)

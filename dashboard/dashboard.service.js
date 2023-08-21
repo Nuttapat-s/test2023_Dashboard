@@ -14,6 +14,20 @@ class DashboardService{
         return await this.dashboardRepo.viewDetail(dashboardId);
     }
 
+    async createDashboard(newData){
+        await this.dashboardRepo.createDashboard(newData);
+        return {
+            status: 'SUCCESS'
+        }
+    }
+
+    async deleteData(id){
+        await this.dashboardRepo.deleteData(id);
+        return {
+            status: 'SUCCESS'
+        }
+    }
+
 }
 
 module.exports = DashboardService;

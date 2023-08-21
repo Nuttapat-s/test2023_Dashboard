@@ -1,4 +1,4 @@
-const jwtGetUser = require('../jwt.guard');
+
 const dashboardModel = require('./models/dashboard.model');
 
 class DashboardRepo{
@@ -17,6 +17,18 @@ class DashboardRepo{
             throw err
         })
 
+    }
+
+    async createDashboard(newData){
+        await dashboardModel.insertMany([newData]).catch((err)=>{
+            throw err;
+        })
+    }
+
+    async deleteData(id){
+        await dashboardModel.deleteOne({_id:id}).catch((err)=>{
+            throw err;
+        })
     }
 }
 

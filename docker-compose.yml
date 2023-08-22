@@ -1,0 +1,59 @@
+version: '3'
+services:
+  mongo: 
+    container_name: mainDb
+    image: mongo:latest
+    restart: always
+    volumes:
+      - ./mongo:/data/db
+    ports: 
+    - '27017:27017'
+
+  dashboard-app:
+    build: 
+      context: ./main_app
+      dockerfile: Dockerfile
+    ports:
+      - '3000:3000'
+    volumes:
+      - ./:/main_app/app
+      - /main_app/app/node_modules/
+    environment:
+      - DB_URL=mongodb://mongo:27017/dashboard
+      - PORT=3000
+      - AUTH_ACCESS_TOKEN_SECRET=secret
+      - AUTH_REFRESH_TOKEN_SECRET=refresh
+      - AUTH_URL=http://auth-app:3100/users
+    depends_on:
+      - mongo
+
+  mongoauth: 
+    container_name: AuthDb
+    image: mongo:latest
+    restart: always
+    volumes:
+      - ./mongoauth:/data/db
+    ports: 
+    - '27018:27017'
+
+  auth-app:
+    build: 
+      context: ./auth
+      dockerfile: Dockerfile
+    ports:
+      - '3100:3100'
+    volumes:
+      - ./:/auth/app
+      - /auth/app/node_modules/
+    environment:
+      - DB_URL=mongodb://mongoauth:27017/auth
+      - PORT=3100
+      - AUTH_ACCESS_TOKEN_SECRET=secret
+      - AUTH_REFRESH_TOKEN_SECRET=refresh
+    depends_on:
+      - mongoauth
+
+
+volumes:
+  mongo: {}
+  mongoauth: {}

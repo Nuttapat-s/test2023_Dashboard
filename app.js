@@ -1,12 +1,13 @@
 const express = require('express');
-const dashboardRouter = require('./dashboard/dashboard.controller')
-const commentRouter = require('./comment/comment.controller')
+const dashboardRouter = require('./src/dashboard/dashboard.controller')
+const commentRouter = require('./src/comment/comment.controller')
 const dotenv = require('dotenv');
 const mongoose = require('mongoose')
 
 dotenv.config();
 
 mongoose.Promise = global.Promise;
+console.log(process.env.DB_URL)
 mongoose.connect(process.env.DB_URL)
     .then(() => {
         console.log('db connect success')

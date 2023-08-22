@@ -22,7 +22,7 @@ class JwtValidation {
 
 
         } catch (error) {
-            return res.sendStatus(401).send(error)
+            return res.sendStatus(401)
         }
     }
 

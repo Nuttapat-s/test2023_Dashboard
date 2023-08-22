@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const Jwt = require('../jwt.guard');
+const Jwt = require('../../jwt.guard');
 const CommentService = require('./comment.service');
 
 let commentService = new CommentService();

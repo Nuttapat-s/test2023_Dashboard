@@ -8,7 +8,7 @@ class DashboardService{
     
     async findAll(limit,skip){
         let count = await this.dashboardRepo.countAll();
-        return await this.dashboardRepo.findAll(!limit?0:limit,!skip?count-3:skip);
+        return await this.dashboardRepo.findAll(!limit?0:limit,!skip?count-3:skip>count?count-1:skip);
     }
 
     async viewDetail(dashboardId){

@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const DashboardService = require('./dashboard.service');
-const JwtValidation = require('../jwt.guard');
+const JwtValidation = require('../../jwt.guard');
 
 
 let service = new DashboardService();
@@ -57,7 +57,7 @@ router.delete('/delete/one',jwt.jwtValidate,async (req,res) =>{
     try {
         res.send(await service.deleteData(req.body.id));
     } catch (error) {
-        res.send(error);
+        res.send('error');
     }
 })
 
